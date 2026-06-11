@@ -18,17 +18,17 @@ jobs:
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-        
-      - name: QEMU
+
+      - name: Setup QEMU
         uses: docker/setup-qemu-action@v4
 
-      - name: set up Docker Buildx
+      - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Docker Build and Push
+      - name: Build and Push Docker Image
         run: |
-          docker build -t kunalmadoliya/chaicode-node .
-          docker push kunalmadoliya/chaicode-node
+          docker build -t kunalmadoliya/chaicode-node:latest .
+          docker push kunalmadoliya/chaicode-node:latest
 
       - name: Deploy on ExCloud
         uses: appleboy/ssh-action@v1.0.3
@@ -37,9 +37,13 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-           sudo docker pull kunalmadoliya/chaicode-node
-           sudo docker rm -f chaicode-node || true
-           sudo docker run -d --restart unless-stopped --name chaicode-node -p 8000:8000 kunalmadoliya/chaicode-node
+            sudo docker pull kunalmadoliya/chaicode-node:latest
 
+            sudo docker stop chaicode-node || true
+            sudo docker rm chaicode-node || true
 
-
+            sudo docker run -d \
+              --restart unless-stopped \
+              --name chaicode-node \
+              -p 8000:8000 \
+              kunalmadoliya/chaicode-node:latest
