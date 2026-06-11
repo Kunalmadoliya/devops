@@ -37,9 +37,9 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            docker pull kunalmadoliya/chaicode-node
-            docker rm -f chaicode-node || true
-            docker run -d --restart unless-stopped --name chaicode-node -p 8000:8000 kunalmadoliya/chaicode-node
+           sudo docker pull kunalmadoliya/chaicode-node
+           sudo docker rm -f chaicode-node || true
+           sudo docker run -d --restart unless-stopped --name chaicode-node -p 8000:8000 kunalmadoliya/chaicode-node
 
 
 
