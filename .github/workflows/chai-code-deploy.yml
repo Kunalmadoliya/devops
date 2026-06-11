@@ -47,3 +47,6 @@ jobs:
               --name chaicode-node \
               -p 8000:8000 \
               kunalmadoliya/chaicode-node:latest
+
+
+              
