@@ -7,7 +7,7 @@ const PORT = process.env.PORT ?? 8000;
 app.use(express.json())
 
 app.get("/", (req, res) => {
-  return res.json({message: "Server is healthy but i am not 100kgs btw"});
+  return res.json({message: "Server is healthy but i am not 100kgs btw" , status : "nice status"});
 });
 
 
